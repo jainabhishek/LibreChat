@@ -7,7 +7,6 @@ import { tConvoUpdateSchema, EModelEndpoint, isParamEndpoint } from 'librechat-d
 import type { TPreset, TInterfaceConfig } from 'librechat-data-provider';
 import { EndpointSettings, SaveAsPresetDialog, AlternativeSettings } from '~/components/Endpoints';
 import { PluginStoreDialog, TooltipAnchor } from '~/components';
-import { ModelSelect } from '~/components/Input/ModelSelect';
 import { useSetIndexOptions, useLocalize } from '~/hooks';
 import OptionsPopover from './OptionsPopover';
 import PopoverButtons from './PopoverButtons';
@@ -79,14 +78,6 @@ export default function HeaderOptions({
         <div className="my-auto lg:max-w-2xl xl:max-w-3xl">
           <span className="flex w-full flex-col items-center justify-center gap-0 md:order-none md:m-auto md:gap-2">
             <div className="z-[61] flex w-full items-center justify-center gap-2">
-              {interfaceConfig?.modelSelect === true && (
-                <ModelSelect
-                  conversation={conversation}
-                  setOption={setOption}
-                  showAbove={false}
-                  popover={true}
-                />
-              )}
               {!noSettings[endpoint] &&
                 interfaceConfig?.parameters === true &&
                 paramEndpoint === false && (

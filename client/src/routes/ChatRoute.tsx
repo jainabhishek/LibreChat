@@ -9,7 +9,7 @@ import {
 import type { TPreset } from 'librechat-data-provider';
 import { useNewConvo, useAppStartup, useAssistantListMap } from '~/hooks';
 import { useGetConvoIdQuery, useHealthCheck } from '~/data-provider';
-import { getDefaultModelSpec, getModelSpecIconURL } from '~/utils';
+import { getModelSpecIconURL } from '~/utils';
 import { ToolCallsMapProvider } from '~/Providers';
 import ChatView from '~/components/Chat/ChatView';
 import useAuthRedirect from './useAuthRedirect';
@@ -47,20 +47,13 @@ export default function ChatRoute() {
     }
 
     if (conversationId === Constants.NEW_CONVO && endpointsQuery.data && modelsQuery.data) {
-      const spec = getDefaultModelSpec(startupConfig?.modelSpecs?.list);
-
       newConversation({
         modelsData: modelsQuery.data,
         template: conversation ? conversation : undefined,
-        ...(spec
-          ? {
-            preset: {
-              ...spec.preset,
-              iconURL: getModelSpecIconURL(spec),
-              spec: spec.name,
-            },
-          }
-          : {}),
+        preset: {
+          model: 'get-4o-mini',
+          iconURL: getModelSpecIconURL({ name: 'get-4o-mini' }),
+        },
       });
 
       hasSetConversation.current = true;
@@ -68,7 +61,10 @@ export default function ChatRoute() {
       newConversation({
         template: initialConvoQuery.data,
         /* this is necessary to load all existing settings */
-        preset: initialConvoQuery.data as TPreset,
+        preset: {
+          ...initialConvoQuery.data,
+          model: 'get-4o-mini',
+        } as TPreset,
         modelsData: modelsQuery.data,
         keepLatestMessage: true,
       });
@@ -78,19 +74,13 @@ export default function ChatRoute() {
       assistantListMap[EModelEndpoint.assistants] &&
       assistantListMap[EModelEndpoint.azureAssistants]
     ) {
-      const spec = getDefaultModelSpec(startupConfig?.modelSpecs?.list);
       newConversation({
         modelsData: modelsQuery.data,
         template: conversation ? conversation : undefined,
-        ...(spec
-          ? {
-            preset: {
-              ...spec.preset,
-              iconURL: getModelSpecIconURL(spec),
-              spec: spec.name,
-            },
-          }
-          : {}),
+        preset: {
+          model: 'get-4o-mini',
+          iconURL: getModelSpecIconURL({ name: 'get-4o-mini' }),
+        },
       });
       hasSetConversation.current = true;
     } else if (
@@ -99,7 +89,10 @@ export default function ChatRoute() {
     ) {
       newConversation({
         template: initialConvoQuery.data,
-        preset: initialConvoQuery.data as TPreset,
+        preset: {
+          ...initialConvoQuery.data,
+          model: 'get-4o-mini',
+        } as TPreset,
         modelsData: modelsQuery.data,
         keepLatestMessage: true,
       });

@@ -24,7 +24,7 @@ export default function ModelSpecsMenu({ modelSpecs }: { modelSpecs?: TModelSpec
 
   const onSelectSpec = (spec: TModelSpec) => {
     const { preset } = spec;
-    preset.iconURL = getModelSpecIconURL(spec);
+    preset.iconURL = getModelSpecIconURL(spec) ?? ''; // Ensure preset.iconURL is defined
     preset.spec = spec.name;
     const { endpoint } = preset;
     const newEndpoint = endpoint ?? '';
